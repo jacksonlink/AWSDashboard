@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<title>Amazon AWS EC2 Dashboard</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Amazon AWS EC2 Dashboard - INSTANCES</h4>
+			</div>
+
+			<div class="panel panel-body">
+				<table class="table table-striped">
+					<tr>
+						<th>Name</th>
+						<th>Server ID</th>
+						<th>Type</th>
+						<th>State</th>
+						<th>Action</th>
+					</tr>
+					{% for dict in list %}
+					<tr>
+						<td>{{dict['name']}}</td>
+						<td>{{dict['server_id']}}</td>
+						<td>{{dict['instance_type']}}</td>
+
+						{% if dict['instance_state'] == 'running' %}
+						<td class="text-success">{{dict['instance_state']}}</td>
+						{% elif dict['instance_state'] == 'stopped' %}
+						<td class="text-danger">
+							<font color="red">{{dict['instance_state']}}</font>
+						</td>
+						{% else %}
+						<td class="text-warning">{{dict['instance_state']}}</td>
+						{% endif %}
+						
+						{% if dict['instance_state'] == 'running' %}
+						<td>
+							<a href="{{url_for('stop_instance', instance_id=dict['server_id']) }}">
+								<button class="btn-danger">Stop Server</button>
+							</a>
+						</td>
+						{% elif dict['instance_state'] == 'stopped' %}
+						<td>
+							<a href="{{url_for('start_instance', instance_id=dict['server_id']) }}">
+								<button class="btn-success">Start Server</button>
+							</a>
+						</td>
+						{% else %}
+						<td>
+							Wait...
+						</td>
+						{% endif %}
+					</tr>
+					{% endfor %}
+				</table>
+				<tr>
+					<td width="100%"><a href="/volumes/">Volumes List</a></td>
+				</tr>
+			</div>
+		</div>
+	</div>
+	<div>
+			
+	</div>
+</body>
+
+</html>
