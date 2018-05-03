@@ -49,7 +49,10 @@ def volumes():
 		volumes = conn.get_all_volumes()
 		volume_list = []
 		for volume in volumes:
-			volume_info = { 'id' : volume.id, 
+			name = re.sub(r'{u\'Name\': u\'', "", str(volume.tags))
+			name = str(re.sub(r'\'}', "", name))	
+			volume_info = { 'name' : name,
+							'id' : volume.id, 
 							'size' : volume.size, 
 							'status' : volume.status, 
 							'type' : volume.type, 
