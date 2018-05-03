@@ -24,6 +24,7 @@
 			<div class="panel panel-body">
 				<table class="table table-striped">
 					<tr>
+						<th>Name</th>
 						<th>ID</th>
 						<th>Size</th>
 						<th>Type</th>
@@ -33,6 +34,7 @@
 					</tr>
 					{% for dict in volume_list %}
 					<tr>
+						<td>{{dict['name']}}</td>
 						<td>{{dict['id']}}</td>
 						<td>{{dict['size']}}</td>
 						<td>{{dict['type']}}</td>
